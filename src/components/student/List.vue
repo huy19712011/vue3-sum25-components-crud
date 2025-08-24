@@ -5,6 +5,12 @@ const props = defineProps({
     required: true,
   },
 });
+
+const emit = defineEmits(["edit-student"]);
+
+const editStudent = (student) => {
+  emit("edit-student", student);
+};
 </script>
 <template>
   <div class="card">

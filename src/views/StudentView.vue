@@ -1,5 +1,6 @@
 <script setup>
 import Create from "@/components/student/Create.vue";
+import Edit from "@/components/student/Edit.vue";
 import List from "@/components/student/List.vue";
 import { ref } from "vue";
 
@@ -30,6 +31,15 @@ const students = ref([
   },
 ]);
 
+const model = ref({
+  student: {
+    id: "",
+    name: "",
+    email: "",
+    phone: "",
+  },
+});
+
 const addStudent = (student) => {
   student.id = students.value.length + 1;
   const formattedDate = new Date().toISOString().split("T")[0];
@@ -37,11 +47,31 @@ const addStudent = (student) => {
   student.updated_at = formattedDate;
   students.value.push(student);
 };
+
+const editStudent = (student) => {
+  model.value.student = { ...student }; // if using directly student here => list change during editing form!!!
+};
+
+const updateStudent = (student) => {
+  const index = students.value.findIndex((s) => s.id === student.id);
+  if (index !== -1) {
+    student.updated_at = new Date().toISOString().split("T")[0];
+    students.value[index] = { ...student };
+  }
+
+  model.student = {
+    id: "",
+    name: "",
+    email: "",
+    phone: "",
+  };
+};
 </script>
 
 <template>
   <div class="container">
     <Create @add-student="addStudent"></Create>
-    <List :students="students"></List>
+    <List :students="students" @edit-student="editStudent"></List>
+    <Edit :student="model.student" @update-student="updateStudent"></Edit>
   </div>
 </template>
