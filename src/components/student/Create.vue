@@ -13,7 +13,10 @@ const emit = defineEmits(["add-student"]);
 
 function saveStudent() {
   emit("add-student", model.student);
-  model.student = {};
+  // model.student = {};
+  model.student.name = "";
+  model.student.email = "";
+  model.student.phone = "";
 }
 </script>
 <template>
