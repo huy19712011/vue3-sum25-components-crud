@@ -1,4 +1,5 @@
 <script setup>
+import Create from "@/components/student/Create.vue";
 import List from "@/components/student/List.vue";
 import { ref } from "vue";
 
@@ -28,10 +29,19 @@ const students = ref([
     updated_at: "2024-10-18",
   },
 ]);
+
+const addStudent = (student) => {
+  student.id = students.value.length + 1;
+  const formattedDate = new Date().toISOString().split("T")[0];
+  student.created_at = formattedDate;
+  student.updated_at = formattedDate;
+  students.value.push(student);
+};
 </script>
 
 <template>
   <div class="container">
+    <Create @add-student="addStudent"></Create>
     <List :students="students"></List>
   </div>
 </template>
