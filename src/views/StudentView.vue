@@ -66,12 +66,16 @@ const updateStudent = (student) => {
     phone: "",
   };
 };
+
+const deleteStudent = (student) => {
+  students.value = students.value.filter((s) => s.id !== student.id);
+};
 </script>
 
 <template>
   <div class="container">
     <Create @add-student="addStudent"></Create>
-    <List :students="students" @edit-student="editStudent"></List>
+    <List :students="students" @edit-student="editStudent" @delete-student="deleteStudent"></List>
     <Edit :student="model.student" @update-student="updateStudent"></Edit>
   </div>
 </template>

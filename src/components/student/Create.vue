@@ -51,7 +51,13 @@ function saveStudent() {
           />
         </div>
         <div class="mb3">
-          <button type="button" class="btn btn-primary" @click="saveStudent">Save</button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            @click="saveStudent"
+          >
+            Save
+          </button>
         </div>
       </div>
     </div>
