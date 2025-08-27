@@ -7,6 +7,8 @@ const props = defineProps({
       name: "",
       email: "",
       phone: "",
+      created_at: "",
+      updated_at: "",
     }),
   },
 });
@@ -18,6 +20,8 @@ const updateStudent = (student) => {
   student.name = "";
   student.email = "";
   student.phone = "";
+  student.created_at = "";
+  student.updated_at = "";
 };
 </script>
 <template>
