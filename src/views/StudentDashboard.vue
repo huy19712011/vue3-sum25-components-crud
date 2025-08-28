@@ -56,14 +56,15 @@ const addStudent = async (student) => {
     });
     if (!response.ok) throw new Error("Failed to save student");
     // Optionally, you can use the returned student data
-    // const savedStudent = await response.json();
+    const savedStudent = await response.json();
     // students.value.push(savedStudent);
+    students.value = [...students.value, savedStudent];
 
     // students.value.push(student); // will not work propertly!!! => need use savedStudent!!!
 
-    // Refresh the students list from backend
-    const refreshed = await fetch("http://localhost:3000/students");
-    students.value = await refreshed.json();
+    // Other way: Refresh the students list from backend
+    // const refreshed = await fetch("http://localhost:3000/students");
+    // students.value = await refreshed.json();
   } catch (error) {
     console.error("Failed to save student:", error);
   }
@@ -89,7 +90,9 @@ const updateStudent = async (student) => {
 
     const index = students.value.findIndex((s) => s.id === updatedStudent.id);
     if (index !== -1) {
-      students.value[index] = { ...updatedStudent };
+      // students.value[index] = { ...updatedStudent };
+
+      students.value = students.value.map((s, i) => (i === index ? { ...updatedStudent } : s));
     }
   } catch (error) {
     console.error("Failed to update student:", error);
