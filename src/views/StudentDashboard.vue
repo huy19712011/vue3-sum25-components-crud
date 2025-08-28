@@ -5,6 +5,10 @@ import List from "@/components/student/List.vue";
 import { ref } from "vue";
 import { onMounted } from "vue";
 
+import { useStudentsStore } from "@/stores/students";
+
+const studentsStore = useStudentsStore();
+
 const students = ref([]);
 
 // onMounted(() => {
@@ -21,12 +25,15 @@ const students = ref([]);
 onMounted(async () => {
   // Using async/await makes asynchronous code easier to read and maintain.
   // It avoids "callback hell" and makes error handling simpler with try/catch.
-  try {
-    const response = await fetch("http://localhost:3000/students");
-    students.value = await response.json();
-  } catch (error) {
-    console.error("Failed to fetch students:", error);
-  }
+
+  // try {
+  //   const response = await fetch("http://localhost:3000/students");
+  //   students.value = await response.json();
+  // } catch (error) {
+  //   console.error("Failed to fetch students:", error);
+  // }
+
+  studentsStore.getStudents();
 });
 
 const model = ref({
@@ -41,6 +48,7 @@ const model = ref({
 });
 
 const addStudent = async (student) => {
+  /*
   const formattedDate = new Date().toISOString().split("T")[0];
   student.id = String(students.value.length + 1);
   student.created_at = formattedDate;
@@ -68,13 +76,17 @@ const addStudent = async (student) => {
   } catch (error) {
     console.error("Failed to save student:", error);
   }
+  */
+  studentsStore.addStudent(student);
 };
 
 const editStudent = (student) => {
   model.value.student = { ...student }; // if using directly student here => list change during editing form!!!
+  // studentsStore.editStudent(student);
 };
 
 const updateStudent = async (student) => {
+  /*
   try {
     student.updated_at = new Date().toISOString().split("T")[0];
     const response = await fetch(`http://localhost:3000/students/${student.id}`, {
@@ -106,9 +118,20 @@ const updateStudent = async (student) => {
       updated_at: "",
     };
   }
+  */
+  studentsStore.updateStudent(student);
+  model.value.student = {
+    id: "",
+    name: "",
+    email: "",
+    phone: "",
+    created_at: "",
+    updated_at: "",
+  };
 };
 
 const deleteStudent = async (student) => {
+  /*
   try {
     const response = await fetch(`http://localhost:3000/students/${student.id}`, {
       method: "DELETE",
@@ -118,6 +141,8 @@ const deleteStudent = async (student) => {
   } catch (error) {
     console.error("Failed to delete student:", error);
   }
+  */
+  studentsStore.deleteStudent(student);
 };
 </script>
 
@@ -125,7 +150,7 @@ const deleteStudent = async (student) => {
   <div class="container">
     <Create @add-student="addStudent"></Create>
     <List
-      :students="students"
+      :students="studentsStore.students"
       @edit-student="editStudent"
       @delete-student="deleteStudent"
     ></List>
