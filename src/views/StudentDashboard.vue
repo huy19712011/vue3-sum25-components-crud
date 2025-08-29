@@ -6,10 +6,12 @@ import { ref } from "vue";
 import { onMounted } from "vue";
 
 import { useStudentsStore } from "@/stores/students";
+import { storeToRefs } from "pinia";
 
 const studentsStore = useStudentsStore();
 
-const students = ref([]);
+const { students, student } = storeToRefs(studentsStore);
+// const students = ref([]);
 
 // onMounted(() => {
 //   // This code runs when the component is mounted (similar to 'created' in Vue 2)
@@ -22,7 +24,7 @@ const students = ref([]);
 //     });
 // });
 
-onMounted(async () => {
+onMounted(() => {
   // Using async/await makes asynchronous code easier to read and maintain.
   // It avoids "callback hell" and makes error handling simpler with try/catch.
 
@@ -36,17 +38,22 @@ onMounted(async () => {
   studentsStore.getStudents();
 });
 
-const model = ref({
-  student: {
-    id: "",
-    name: "",
-    email: "",
-    phone: "",
-    created_at: "",
-    updated_at: "",
-  },
-});
+// const model = ref({
+//   student: {
+//     id: "",
+//     name: "",
+//     email: "",
+//     phone: "",
+//     created_at: "",
+//     updated_at: "",
+//   },
+// });
+/*
+Using Pinia to manage the student model is beneficial if you want to share the editing state (the current student being edited) across multiple components or views, or if you want to keep your state management centralized and consistent. This is especially useful in larger applications.
 
+Using a local ref like `model = ref({ student: { ... } })` is simpler and sufficient if the editing state is only relevant to this component and does not need to be accessed or mutated elsewhere.
+
+*/
 const addStudent = async (student) => {
   /*
   const formattedDate = new Date().toISOString().split("T")[0];
@@ -81,8 +88,8 @@ const addStudent = async (student) => {
 };
 
 const editStudent = (student) => {
-  model.value.student = { ...student }; // if using directly student here => list change during editing form!!!
-  // studentsStore.editStudent(student);
+  // model.value.student = { ...student }; // if using directly student here => list change during editing form!!!
+  studentsStore.editStudent(student);
 };
 
 const updateStudent = async (student) => {
@@ -120,14 +127,14 @@ const updateStudent = async (student) => {
   }
   */
   studentsStore.updateStudent(student);
-  model.value.student = {
-    id: "",
-    name: "",
-    email: "",
-    phone: "",
-    created_at: "",
-    updated_at: "",
-  };
+  // model.value.student = {
+  //   id: "",
+  //   name: "",
+  //   email: "",
+  //   phone: "",
+  //   created_at: "",
+  //   updated_at: "",
+  // };
 };
 
 const deleteStudent = async (student) => {
@@ -153,10 +160,12 @@ const deleteStudent = async (student) => {
       :students="studentsStore.students"
       @edit-student="editStudent"
       @delete-student="deleteStudent"
-    ></List>
+    >
+    </List>
     <Edit
-      :student="model.student"
+      :student="student"
       @update-student="updateStudent"
-    ></Edit>
+    >
+    </Edit>
   </div>
 </template>

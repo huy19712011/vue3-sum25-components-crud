@@ -11,7 +11,14 @@ const emit = defineEmits(["edit-student", "delete-student"]);
 const editStudent = (student) => {
   emit("edit-student", student);
 };
-
+/*
+ * It's generally better to keep this component presentational and use emits,
+ * so the parent manages the store logic. This keeps the component reusable and decoupled.
+ * If you want to update the store directly here, you would need to import the store
+ * and call the mutation/action, but that tightly couples this component to your store.
+ *
+ * Recommended: Keep using emit.
+ */
 const deleteStudent = (student) => {
   emit("delete-student", student);
 };

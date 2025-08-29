@@ -7,12 +7,12 @@ export const useStudentsStore = defineStore("students", {
   state: () => ({
     students: [],
     student: {
-      id: "",
-      name: "",
-      email: "",
-      phone: "",
-      created_at: "",
-      updated_at: "",
+      // id: "",
+      // name: "",
+      // email: "",
+      // phone: "",
+      // created_at: "",
+      // updated_at: "",
     },
   }),
   actions: {
@@ -64,7 +64,7 @@ export const useStudentsStore = defineStore("students", {
 
         const index = this.students.findIndex((s) => s.id === updatedStudent.id);
         if (index !== -1) {
-          // students.value[index] = { ...updatedStudent };
+          // this.students[index] = { ...updatedStudent };
 
           this.students = this.students.map((s, i) => (i === index ? { ...updatedStudent } : s));
         }
@@ -84,7 +84,12 @@ export const useStudentsStore = defineStore("students", {
       }
     },
     async editStudent(student) {
-      this.student = student;
+      this.student = { ...student }; // if using directly student here => list not change after editing form!!!
+
+      // w2: deep copy with nested object
+      // this.student = JSON.parse(JSON.stringify(student));
+      // w3 OR using lodash library
+      // this.student = structuredClone(student);
     },
   },
 });
