@@ -27,7 +27,9 @@ const deleteStudent = (student) => {
   <div class="container mt-5">
     <div class="card">
       <div class="card-header">
-        <h2>Students</h2>
+        <h2>
+          Students<span>: {{ students.length }}</span>
+        </h2>
       </div>
       <div class="card-body">
         <table class="table table-bordered">
@@ -54,12 +56,18 @@ const deleteStudent = (student) => {
               <td>{{ student.phone }}</td>
               <td>{{ student.created_at }}</td>
               <td>
-                <button
+                <!-- <button
                   class="btn btn-success"
                   @click="editStudent(student)"
                 >
                   Edit
-                </button>
+                </button> -->
+                <RouterLink
+                  class="btn btn-success"
+                  :to="{ name: 'student-details', params: { id: student.id } }"
+                >
+                  <span>Edit</span>
+                </RouterLink>
                 <button
                   class="btn btn-danger"
                   @click="deleteStudent(student)"
