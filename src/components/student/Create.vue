@@ -17,12 +17,15 @@ const emit = defineEmits(["add-student"]);
 function saveStudent() {
   emit("add-student", model.student);
   // model.student = {};
-  model.student.id = "";
-  model.student.name = "";
-  model.student.email = "";
-  model.student.phone = "";
-  model.student.created_at = "";
-  model.student.updated_at = "";
+
+  // model.student.id = "";
+  // model.student.name = "";
+  // model.student.email = "";
+  // model.student.phone = "";
+  // model.student.created_at = "";
+  // model.student.updated_at = "";
+
+  model.student = { id: "", name: "", email: "", phone: "", created_at: "", updated_at: "" };
 }
 </script>
 <template>
