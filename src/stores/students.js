@@ -17,7 +17,7 @@ export const useStudentsStore = defineStore("students", {
   }),
   actions: {
     async getStudents() {
-      const result = await fetch("http://localhost:3000/students");
+      const result = await fetch("http://localhost:8080/students");
       const response = await result.json();
       this.students = response;
     },
@@ -28,7 +28,7 @@ export const useStudentsStore = defineStore("students", {
       student.updated_at = formattedDate;
 
       try {
-        const response = await fetch("http://localhost:3000/students", {
+        const response = await fetch("http://localhost:8080/students", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -51,7 +51,7 @@ export const useStudentsStore = defineStore("students", {
     async updateStudent(student) {
       try {
         student.updated_at = new Date().toISOString().split("T")[0];
-        const response = await fetch(`http://localhost:3000/students/${student.id}`, {
+        const response = await fetch(`http://localhost:8080/students/${student.id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -74,7 +74,7 @@ export const useStudentsStore = defineStore("students", {
     },
     async deleteStudent(student) {
       try {
-        const response = await fetch(`http://localhost:3000/students/${student.id}`, {
+        const response = await fetch(`http://localhost:8080/students/${student.id}`, {
           method: "DELETE",
         });
         if (!response.ok) throw new Error("Failed to delete student");
