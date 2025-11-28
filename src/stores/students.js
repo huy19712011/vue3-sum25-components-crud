@@ -23,9 +23,9 @@ export const useStudentsStore = defineStore("students", {
     },
     async addStudent(student) {
       const formattedDate = new Date().toISOString().split("T")[0];
-      student.id = String(this.students.length + 1);
-      student.created_at = formattedDate;
-      student.updated_at = formattedDate;
+      // student.id = String(this.students.length + 1);
+      // student.created_at = formattedDate;
+      // student.updated_at = formattedDate;
 
       try {
         const response = await fetch("http://localhost:8080/students", {
