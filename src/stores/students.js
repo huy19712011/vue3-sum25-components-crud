@@ -17,21 +17,34 @@ export const useStudentsStore = defineStore("students", {
   }),
   actions: {
     async getStudents() {
-      const result = await fetch("http://localhost:8080/students");
+      const username = "user";
+      const password = "123456";
+      const basicAuth = "Basic " + btoa(`${username}:${password}`);
+      // Add Authorization header to fetch
+      const result = await fetch("http://localhost:8080/students", {
+        headers: {
+          Authorization: basicAuth,
+        },
+      });
       const response = await result.json();
       this.students = response;
     },
     async addStudent(student) {
-      const formattedDate = new Date().toISOString().split("T")[0];
+      // const formattedDate = new Date().toISOString().split("T")[0];
       // student.id = String(this.students.length + 1);
       // student.created_at = formattedDate;
       // student.updated_at = formattedDate;
+
+      const username = "user";
+      const password = "123456";
+      const basicAuth = "Basic " + btoa(`${username}:${password}`);
 
       try {
         const response = await fetch("http://localhost:8080/students", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: basicAuth,
           },
           body: JSON.stringify(student),
         });
@@ -49,12 +62,17 @@ export const useStudentsStore = defineStore("students", {
       }
     },
     async updateStudent(student) {
+      const username = "user";
+      const password = "123456";
+      const basicAuth = "Basic " + btoa(`${username}:${password}`);
+
       try {
         student.updated_at = new Date().toISOString().split("T")[0];
         const response = await fetch(`http://localhost:8080/students/${student.id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: basicAuth,
           },
           body: JSON.stringify(student),
         });
@@ -73,9 +91,17 @@ export const useStudentsStore = defineStore("students", {
       }
     },
     async deleteStudent(student) {
+      const username = "user";
+      const password = "123456";
+      const basicAuth = "Basic " + btoa(`${username}:${password}`);
+
       try {
         const response = await fetch(`http://localhost:8080/students/${student.id}`, {
           method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: basicAuth,
+          },
         });
         if (!response.ok) throw new Error("Failed to delete student");
         this.students = this.students.filter((s) => s.id !== student.id);
